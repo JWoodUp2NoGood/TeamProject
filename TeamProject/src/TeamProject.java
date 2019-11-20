@@ -66,17 +66,20 @@ public class TeamProject extends Application
 		
 		Label previewLabel = new Label("Preview:");
 		rightPane.setTop(previewLabel);
+		rightPane.setMargin(previewLabel, new Insets(10, 0, 10, 0));
 		
-		TextArea preview = new TextArea("the preview");
+		TextArea preview = new TextArea("123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890");
 		preview.setEditable(false);
+		preview.setMinWidth(520);
 		rightPane.setCenter(preview);
+		rightPane.setMargin(preview, new Insets(0, 20, 20, 0));
 		
 		//pane for everything
 		BorderPane pane = new BorderPane();
 		pane.setLeft(leftPane);
 		pane.setRight(rightPane);
 		
-		Scene scene = new Scene(pane, 700, 500);
+		Scene scene = new Scene(pane, 900, 600);
 
 		stage.setTitle("TeamProject");
 		stage.setScene(scene);
