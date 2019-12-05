@@ -95,11 +95,11 @@ public class DisplayPane extends BorderPane
 		public void handle(ActionEvent e)
 		{
 			Object source = e.getSource();
-			
+			String output = "";
 			
 			if(source == inputButton) //if the format button is pressed
 			{
-				String output = "", line;
+				String line;
 				String justification; //left, right, center, or title
 				String spacing; //single or double
 				String indent; //none, indent, or block
@@ -129,8 +129,10 @@ public class DisplayPane extends BorderPane
 						else if(line.equals("-t")) { justification = "title"; }
 						else if(line.equals("-s")) { spacing = "single"; }
 						else if(line.equals("-d")) { spacing = "double"; }
-						else if(line.equals("-i")) { indent = "indent"; }
-						else if(line.equals("-b")) { indent = "block"; }
+						else if(line.equals("-i")) { indent = "indent"; 
+							justification = "left"; }
+						else if(line.equals("-b")) { indent = "block"; 
+							justification = "left"; }
 						else if(line.equals("-n")) { indent = "none"; }
 						else if(line.equals("-1")) { columns = "one"; }
 						else if(line.equals("-2")) { columns = "two"; }
@@ -141,11 +143,36 @@ public class DisplayPane extends BorderPane
 							//format the text
 							if(justification.equals("left"))
 							{
-							
+								//left justified, no indent
+								
+								//left justified, single indent
+								
+								//left justified, block indent
+								
+								//left justified, 2 columns
+								
+								//account for if double spaced
+								
 							} else if(justification.equals("right")) {
-							
+								//right justified, no indent
+								
+								//right justified, 2 columns
+								
+								//account for if double spaced
+								
 							} else if(justification.equals("center")) {
-							
+								//Note: for center justified, take the number
+								//	of characters left over and divide by the
+								//	number of spaces to figure out how many
+								//	extra spaces you need between the words
+								//	so you get 80 characters for the line
+								
+								//center justified, no indent
+								
+								//center justified, 2 columns
+								
+								//account for if double spaced
+								
 							} else if(justification.equals("title")) {
 								characters = 80 - line.length();
 							
@@ -177,7 +204,37 @@ public class DisplayPane extends BorderPane
 					inputError.setText("File not found");
 				}
 			} else if(source == outputButton) { //if the save button is pressed
-				
+				String filename = outputText.getText();
+				if(!filename.substring(filename.length() - 4).equals(".txt"))
+				{
+					outputError.setText("Invalid file type");
+				} else {
+					try
+					{
+						File inputFile = new File(filename);
+						Scanner input = new Scanner(inputFile);
+						
+						outputError.setText("File already exists");
+						
+						input.close();
+					}
+					catch(FileNotFoundException exception)
+					{
+						try
+						{
+							File outputFile = new File(filename);
+							PrintWriter pw = new PrintWriter(outputFile);
+							pw.print(preview.getText());
+							outputError.setText("");
+						
+							pw.close();
+						}
+						catch(FileNotFoundException exception2)
+						{
+							outputError.setText("Failure to save file");
+						}
+					}
+				}
 			}
 			
 			
