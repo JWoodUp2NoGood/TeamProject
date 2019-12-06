@@ -148,8 +148,8 @@ public class DisplayPane extends BorderPane
 							{
 								charCount = line.length();
 								
-								//left justified, no indent
-								if(indent.equals("none"))
+								//left justified, no indent, single spaced, one column
+								if(indent.equals("none") && spacing.equals("single") && columns.equals("one"))
 								{
 									if(charCount <= 80)
 									{
@@ -157,29 +157,21 @@ public class DisplayPane extends BorderPane
 									}
 									else
 									{
-										int index = 0;
-										int breakPoint = 0;
+										int charPerLine = 80; // number of characters per line
+										int index = 0; // number of positions to subtract from the line
+										int breakPoint = 0; // index of a space
 										int nextStartingPoint = 0;
 										
-										for(int i = 0; i < charCount / 80 + 1; i++) 
+										for(int i = 0; i < charCount / charPerLine + 1; i++) 
 										// calculates the number of lines needed and formats
 										{
-											if(breakPoint == 0)
-											{
-												while(line.charAt(79 * (i + 1) - index) != ' ')
-												{ 
-													index += 1;
-												}
+											while(line.charAt((charPerLine - 1) * (i + 1) - index) != ' ')
+											{ 
+												index += 1;
 											}
-											else
-											{
-												while(line.charAt(79 * (i + 1) - index) != ' ')
-												{ 
-													index += 1;
-												}
-											}
-											breakPoint = 79 * (i + 1) - index;
-											for(int j = previousBreakPoint; j < breakPoint; j++)
+										
+											breakPoint = (charPerLine - 1) * (i + 1) - index;
+											for(int j = nextStartingPoint; j < breakPoint; j++)
 											{
 												output += line.charAt(j);
 											}
@@ -189,21 +181,21 @@ public class DisplayPane extends BorderPane
 										}
 									}
 								}
-								//left justified, single indent
-								else if(indent.equals("indent"))
+								//left justified, single indent, single spaced, one column
+								else if(indent.equals("indent") && spacing.equals("single") && columns.equals("one"))
 								{
-									output += "     "; // 5 spaces used
+									output += "\n     "; // 5 spaces used
 									if(charCount <= 75)
 									{
-										output = output + line;
+										output += line;
 									}
 									else
 									{
 										
 									}
 								}
-								//left justified, block indent
-								else if(indent.equals("block"))
+								//left justified, block indent, single spaced, one column
+								else if(indent.equals("block") && spacing.equals("single") && columns.equals("one"))
 								{
 									output = "          "; // 10 spaces used
 									if(charCount <= 70)
@@ -216,7 +208,7 @@ public class DisplayPane extends BorderPane
 									}
 								}
 								//left justified, 2 columns
-								else if(columns.equals("two"))
+								else if(columns.equals("two") && )
 								{
 									
 								}
@@ -226,7 +218,7 @@ public class DisplayPane extends BorderPane
 								int spaceNumber = 0;
 								charCount = line.length();
 								//right justified, no indent
-								if(indent.equals("none"))
+								if(indent.equals("none") && )
 								{
 									if(charCount <= 80)
 									{
