@@ -151,106 +151,27 @@ public class DisplayPane extends BorderPane
 							if(justification.equals("left"))
 							{
 								int charPerLine; // number of characters per line limit
+								int currentLineSize;
 								charCount = line.length();
 								
 								//left justified, no indent, single spaced, one column
 								if(indent.equals("none") && spacing.equals("single") && columns.equals("one"))
 								{
-									int currentLineSize;
+									currentLineSize = currentLineSize(line);
 									// second 80 is character line size without additional spacing added
-									output += left_SingleSpaced_oneColumn(line, 80, 80, 0);
+									output += left_SingleSpaced_oneColumn(line, "", 80, 80, currentLineSize);
 								}
 								//left justified, single indent, single spaced, one column
 								else if(indent.equals("indent") && spacing.equals("single") && columns.equals("one"))
 								{
-									charPerLine = 75;
-									output += "\n     "; // 5 spaces used
-									if(charCount <= charPerLine)
-									{
-										output += line;
-									}
-									else
-									{
-										int loopNumber = 0;
-										int index = 0; // number of positions to subtract from the line
-										int breakPoint = 0; // index of a space
-										int nextStartingPoint = 0;
-										
-										while(nextStartingPoint + charPerLine < charCount)
-										{
-											if(breakPoint == 0)
-											{
-												while(line.charAt((charPerLine - 1) * (loopNumber + 1) - index) != ' ')
-												{ 
-													index += 1;
-												}
-												breakPoint = (charPerLine - 1) * (loopNumber + 1) - index;
-											}
-											else
-											{
-												while(line.charAt(nextStartingPoint + charPerLine) - index != ' ')
-												{
-													index += 1;
-												}
-												breakPoint = nextStartingPoint + charPerLine - index;
-											}
-											
-											for(int j = nextStartingPoint; j < breakPoint; j++)
-											{
-												output += line.charAt(j);
-											}
-											output += "\n";
-											index = 0;
-											nextStartingPoint = breakPoint + 1;
-											loopNumber += 1;
-										}
-									}
+									currentLineSize = currentLineSize(line);
+									output += left_SingleSpaced_oneColumn(line, "     ", 80, 75, currentLineSize);
 								}
 								//left justified, block indent, single spaced, one column
 								else if(indent.equals("block") && spacing.equals("single") && columns.equals("one"))
 								{
-									charPerLine = 70;
-									output = "          "; // 10 spaces used
-									if(charCount <= charPerLine)
-									{
-										output = output + line;
-									}
-									else
-									{
-										int loopNumber = 0;
-										int index = 0; // number of positions to subtract from the line
-										int breakPoint = 0; // index of a space
-										int nextStartingPoint = 0;
-										
-										while(nextStartingPoint + charPerLine < charCount)
-										{
-											if(breakPoint == 0)
-											{
-												while(line.charAt((charPerLine - 1) * (loopNumber + 1) - index) != ' ')
-												{ 
-													index += 1;
-												}
-												breakPoint = (charPerLine - 1) * (loopNumber + 1) - index;
-											}
-											else
-											{
-												while(line.charAt(nextStartingPoint + charPerLine) - index != ' ')
-												{
-													index += 1;
-												}
-												breakPoint = nextStartingPoint + charPerLine - index;
-											}
-											
-											for(int j = nextStartingPoint; j < breakPoint; j++)
-											{
-												output += line.charAt(j);
-											}
-											output += "\n";
-											index = 0;
-											nextStartingPoint = breakPoint + 1;
-											loopNumber += 1;
-										}
-									}
+									currentLineSize = currentLineSize(line);
+									output += left_SingleSpaced_oneColumn(line, "          ", 80, 70, currentLineSize);
 								}
 								//left justified, 2 columns
 								else if(columns.equals("two") )
@@ -262,139 +183,20 @@ public class DisplayPane extends BorderPane
 								// left justified, no indent, double spaced, one column
 								if(indent.equals("none") && spacing.equals("double") && columns.equals("one"))
 								{
-									charPerLine = 80;
-									if(charCount <= charPerLine)
-									{
-										output += line + "\n";
-									}
-									else
-									{
-										int loopNumber = 0;
-										int index = 0; // number of positions to subtract from the line
-										int breakPoint = 0; // index of a space
-										int nextStartingPoint = 0;
-										
-										while(nextStartingPoint + charPerLine < charCount)
-										{
-											if(breakPoint == 0)
-											{
-												while(line.charAt((charPerLine - 1) * (loopNumber + 1) - index) != ' ')
-												{ 
-													index += 1;
-												}
-												breakPoint = (charPerLine - 1) * (loopNumber + 1) - index;
-											}
-											else
-											{
-												while(line.charAt(nextStartingPoint + charPerLine) - index != ' ')
-												{
-													index += 1;
-												}
-												breakPoint = nextStartingPoint + charPerLine - index;
-											}
-											
-											for(int j = nextStartingPoint; j < breakPoint; j++)
-											{
-												output += line.charAt(j);
-											}
-											output += "\n\n";
-											index = 0;
-											nextStartingPoint = breakPoint + 1;
-											loopNumber += 1;
-										}
-									}
+									currentLineSize = currentLineSize(line);
+									output += left_DoubleSpaced_oneColumn(line, "", 80, 80, currentLineSize);
 								}
 								//left justified, double indent, single spaced, one column
 								else if(indent.equals("indent") && spacing.equals("double") && columns.equals("one"))
 								{
-									charPerLine = 75;
-									output += "\n     "; // 5 spaces used
-									if(charCount <= charPerLine)
-									{
-										output += line;
-									}
-									else
-									{
-										int loopNumber = 0;
-										int index = 0; // number of positions to subtract from the line
-										int breakPoint = 0; // index of a space
-										int nextStartingPoint = 0;
-										
-										while(nextStartingPoint + charPerLine < charCount)
-										{
-											if(breakPoint == 0)
-											{
-												while(line.charAt((charPerLine - 1) * (loopNumber + 1) - index) != ' ')
-												{ 
-													index += 1;
-												}
-												breakPoint = (charPerLine - 1) * (loopNumber + 1) - index;
-											}
-											else
-											{
-												while(line.charAt(nextStartingPoint + charPerLine) - index != ' ')
-												{
-													index += 1;
-												}
-												breakPoint = nextStartingPoint + charPerLine - index;
-											}
-											
-											for(int j = nextStartingPoint; j < breakPoint; j++)
-											{
-												output += line.charAt(j);
-											}
-											output += "\n\n";
-											index = 0;
-											nextStartingPoint = breakPoint + 1;
-											loopNumber += 1;
-										}
-									}
+									currentLineSize = currentLineSize(line);
+									output += left_DoubleSpaced_oneColumn(line, "     ", 80, 75, currentLineSize);
 								}
 								//left justified, block indent, single spaced, one column
 								else if(indent.equals("block") && spacing.equals("single") && columns.equals("one"))
 								{
-									charPerLine = 70;
-									output = "          "; // 10 spaces used
-									if(charCount <= charPerLine)
-									{
-										output = output + line;
-									}
-									else
-									{
-										int loopNumber = 0;
-										int index = 0; // number of positions to subtract from the line
-										int breakPoint = 0; // index of a space
-										int nextStartingPoint = 0;
-										
-										while(nextStartingPoint + charPerLine < charCount)
-										{
-											if(breakPoint == 0)
-											{
-												while(line.charAt((charPerLine - 1) * (loopNumber + 1) - index) != ' ')
-												{ 
-													index += 1;
-												}
-												breakPoint = (charPerLine - 1) * (loopNumber + 1) - index;
-											}
-											else
-											{
-												while(line.charAt(nextStartingPoint + charPerLine) - index != ' ')
-												{
-													index += 1;
-												}
-												breakPoint = nextStartingPoint + charPerLine - index;
-											}
-											
-											for(int j = nextStartingPoint; j < breakPoint; j++)
-											{
-												output += line.charAt(j);
-											}
-											output += "\n\n";
-											index = 0;
-											nextStartingPoint = breakPoint + 1;
-											loopNumber += 1;
-										}
-									}
+									currentLineSize = currentLineSize(line);
+									output += left_DoubleSpaced_oneColumn(line, "          ", 80, 70, currentLineSize);
 								}
 								
 							} else if(justification.equals("right")) {
@@ -548,16 +350,18 @@ public class DisplayPane extends BorderPane
 			
 		}
 		
-		private String left_SingleSpaced_oneColumn(String line, int lineLimit, int lineCharLength, int currentLineSize)
+		private String left_SingleSpaced_oneColumn(String line, String intro, int lineLimit, int lineCharLength, int currentLineSize)
 		{
 			String output = "";
 			int charPerLine = lineCharLength;
 			int charCount = line.length();
+			
+			// if line can fit in the current line
 			if(charCount + currentLineSize <= charPerLine)
 			{
 				output += line + " ";
 			}
-			else
+			else // if line can not fit in the current line
 			{
 				int loopNumber = 0;
 				int index = 0; // number of positions to subtract from the line
@@ -565,15 +369,17 @@ public class DisplayPane extends BorderPane
 				int nextStartingPoint = 0;
 				int remainingSpots = lineLimit - currentLineSize;
 				
+				// initial check if a perfect fit can be entered into the current line
 				if(line.charAt(remainingSpots) == ' ')
 				{
 					for(int i = 0; i < remainingSpots; i ++)
 					{
 						output += line.charAt(i);
 					}
-					output += "\n";
+					output += intro;
 					nextStartingPoint = remainingSpots + 1;
 					currentLineSize = 0;
+					remainingSpots = 80;
 				}
 				else
 				{
@@ -585,12 +391,26 @@ public class DisplayPane extends BorderPane
 							if(line.charAt(i) == ' ')
 							{
 								counter = i;
-								break;
 							}
 						}
 					//}
+					if(counter != 0)
+					{
+						for(int i = 0; i < counter; i++)
+						{
+							output += line.charAt(i);
+						}
+						output += intro;
+						nextStartingPoint = counter + 1;
+						currentLineSize = 0;
+						remainingSpots = 80;
+					}
+					else
+					{
+						output += "\n" + intro;
+					}
 					
-						
+					// if there are more parts to the line
 					while(nextStartingPoint + charPerLine < charCount)
 					{
 						if(breakPoint == 0)
@@ -619,9 +439,116 @@ public class DisplayPane extends BorderPane
 						nextStartingPoint = breakPoint + 1;
 						loopNumber += 1;
 					}
+					
 				}
 			}
 			return output;
+		}
+		private String left_DoubleSpaced_oneColumn(String line, String intro, int lineLimit, int lineCharLength, int currentLineSize)
+		{
+			String output = "";
+			int charPerLine = lineCharLength;
+			int charCount = line.length();
+			
+			// if line can fit in the current line
+			if(charCount + currentLineSize <= charPerLine)
+			{
+				output += line + " ";
+			}
+			else // if line can not fit in the current line
+			{
+				int loopNumber = 0;
+				int index = 0; // number of positions to subtract from the line
+				int breakPoint = 0; // index of a space
+				int nextStartingPoint = 0;
+				int remainingSpots = lineLimit - currentLineSize;
+				
+				// initial check if a perfect fit can be entered into the current line
+				if(line.charAt(remainingSpots) == ' ')
+				{
+					for(int i = 0; i < remainingSpots; i ++)
+					{
+						output += line.charAt(i);
+					}
+					output += intro;
+					nextStartingPoint = remainingSpots + 1;
+					currentLineSize = 0;
+					remainingSpots = 80;
+				}
+				else
+				{
+					int counter = 0;
+					//while(currentLineSize != 0)
+					//{
+						for(int i = 0; i < remainingSpots; i++)
+						{
+							if(line.charAt(i) == ' ')
+							{
+								counter = i;
+							}
+						}
+					//}
+					if(counter != 0)
+					{
+						for(int i = 0; i < counter; i++)
+						{
+							output += line.charAt(i);
+						}
+						output += intro;
+						nextStartingPoint = counter + 1;
+						currentLineSize = 0;
+						remainingSpots = 80;
+					}
+					else
+					{
+						output += "\n\n" + intro;
+					}
+					
+					// if there are more parts to the line
+					while(nextStartingPoint + charPerLine < charCount)
+					{
+						if(breakPoint == 0)
+						{
+							while(line.charAt((charPerLine - 1) * (loopNumber + 1) - index) != ' ')
+							{ 
+								index += 1;
+							}
+							breakPoint = (charPerLine - 1) * (loopNumber + 1) - index;
+						}
+						else
+						{
+							while(line.charAt(nextStartingPoint + charPerLine) - index != ' ')
+							{
+								index += 1;
+							}
+							breakPoint = nextStartingPoint + charPerLine - index;
+						}
+						
+						for(int j = nextStartingPoint; j < breakPoint; j++)
+						{
+							output += line.charAt(j);
+						}
+						output += "\n\n";
+						index = 0;
+						nextStartingPoint = breakPoint + 1;
+						loopNumber += 1;
+					}
+					
+				}
+			}
+			return output;
+		}
+		
+		// returns the last index of a new line
+		int currentLineSize(String line)
+		{
+			int size = 0;
+			
+			for(int i = line.lastIndexOf('\n'); i < line.length(); i++)
+			{
+				size += 1;
+			}
+			return size;
 		}
 	}
 }
