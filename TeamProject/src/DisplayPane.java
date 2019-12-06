@@ -1,3 +1,7 @@
+// Names: Aashik Dhilipkumar, Khoa Nguyen, Pranav Suresh, Jessica Wood
+// CSE 360
+//Team Project
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -146,6 +150,7 @@ public class DisplayPane extends BorderPane
 							//format the text
 							if(justification.equals("left"))
 							{
+								int charPerLine;
 								charCount = line.length();
 								
 								//left justified, no indent, single spaced, one column
@@ -157,20 +162,31 @@ public class DisplayPane extends BorderPane
 									}
 									else
 									{
-										int charPerLine = 80; // number of characters per line
+										charPerLine = 80; // number of characters per line
+										int loopNumber = 0;
 										int index = 0; // number of positions to subtract from the line
 										int breakPoint = 0; // index of a space
 										int nextStartingPoint = 0;
 										
-										for(int i = 0; i < charCount / charPerLine + 1; i++) 
-										// calculates the number of lines needed and formats
+										while(nextStartingPoint + charPerLine < charCount)
 										{
-											while(line.charAt((charPerLine - 1) * (i + 1) - index) != ' ')
-											{ 
-												index += 1;
+											if(breakPoint == 0)
+											{
+												while(line.charAt((charPerLine - 1) * (loopNumber + 1) - index) != ' ')
+												{ 
+													index += 1;
+												}
+												breakPoint = (charPerLine - 1) * (loopNumber + 1) - index;
 											}
-										
-											breakPoint = (charPerLine - 1) * (i + 1) - index;
+											else
+											{
+												while(line.charAt(nextStartingPoint + charPerLine) - index != ' ')
+												{
+													index += 1;
+												}
+												breakPoint = nextStartingPoint + charPerLine - index;
+											}
+											
 											for(int j = nextStartingPoint; j < breakPoint; j++)
 											{
 												output += line.charAt(j);
@@ -178,6 +194,7 @@ public class DisplayPane extends BorderPane
 											output += "\n";
 											index = 0;
 											nextStartingPoint = breakPoint + 1;
+											loopNumber += 1;
 										}
 									}
 								}
@@ -208,7 +225,7 @@ public class DisplayPane extends BorderPane
 									}
 								}
 								//left justified, 2 columns
-								else if(columns.equals("two") && )
+								else if(columns.equals("two") )
 								{
 									
 								}
@@ -216,13 +233,18 @@ public class DisplayPane extends BorderPane
 								
 							} else if(justification.equals("right")) {
 								int spaceNumber = 0;
+								int charPerLine;
 								charCount = line.length();
 								//right justified, no indent
-								if(indent.equals("none") && )
+								if(indent.equals("none") && spacing.equals("single") && columns.equals("one"))
 								{
-									if(charCount <= 80)
+									charPerLine = 80;
+									
+									if(charCount <= charPerLine)
 									{
-										spaceNumber = 80 - characters;
+										spaceNumber = charPerLine - charCount;
+										
+										// inserts spaceNumber of spaces before inserting in line
 										for(int i = 0; i < spaceNumber; i++)
 										{
 											output += " ";
