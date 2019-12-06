@@ -111,6 +111,7 @@ public class DisplayPane extends BorderPane
 				{
 					File inputFile = new File(inputText.getText());
 					Scanner input = new Scanner(inputFile);
+					// default settings
 					inputError.setText("");
 					justification = "left";
 					spacing = "single";
@@ -143,21 +144,77 @@ public class DisplayPane extends BorderPane
 							//format the text
 							if(justification.equals("left"))
 							{
+								characters = line.length();
 								//left justified, no indent
-								
+								if(indent.equals("none"))
+								{
+									if(characters <= 80)
+									{
+										output = line;
+									}
+									else
+									{
+										
+									}
+								}
 								//left justified, single indent
-								
+								else if(indent.equals("indent"))
+								{
+									output = "     "; // 5 spaces used
+									if(characters <= 75)
+									{
+										output = output + line;
+									}
+									else
+									{
+										
+									}
+								}
 								//left justified, block indent
-								
+								else if(indent.equals("block"))
+								{
+									output = "          "; // 10 spaces used
+									if(characters <= 70)
+									{
+										output = output + line;
+									}
+									else
+									{
+										
+									}
+								}
 								//left justified, 2 columns
-								
+								else if(columns.equals("two"))
+								{
+									
+								}
 								//account for if double spaced
 								
 							} else if(justification.equals("right")) {
+								int spaceNumber = 0;
+								characters = line.length();
 								//right justified, no indent
-								
+								if(indent.equals("none"))
+								{
+									if(characters <= 80)
+									{
+										spaceNumber = 80 - characters;
+										for(int i = 0; i < spaceNumber; i++)
+										{
+											output += " ";
+										}
+										output += line;
+									}
+									else
+									{
+										
+									}
+								}
 								//right justified, 2 columns
-								
+								else if(columns.equals("two"))
+								{
+									
+								}
 								//account for if double spaced
 								
 							} else if(justification.equals("center")) {
@@ -167,12 +224,19 @@ public class DisplayPane extends BorderPane
 								//	extra spaces you need between the words
 								//	so you get 80 characters for the line
 								
+								characters = line.length();
 								//center justified, no indent
-								
+								if(indent.equals("none"))
+								{
+									
+								}
 								//center justified, 2 columns
-								
+								else if(columns.equals("two"))
+								{
+									
+								}
 								//account for if double spaced
-								
+								//else if()
 							} else if(justification.equals("title")) {
 								characters = 80 - line.length();
 							
