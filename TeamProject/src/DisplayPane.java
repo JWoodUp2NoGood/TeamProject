@@ -106,6 +106,8 @@ public class DisplayPane extends BorderPane
 				String columns; //one or two
 				int characters; //number of characters on the line
 				
+				int charCount; //number of characters on the line
+				
 				//try to read the file
 				try
 				{
@@ -144,24 +146,54 @@ public class DisplayPane extends BorderPane
 							//format the text
 							if(justification.equals("left"))
 							{
-								characters = line.length();
+								charCount = line.length();
+								
 								//left justified, no indent
 								if(indent.equals("none"))
 								{
-									if(characters <= 80)
+									if(charCount <= 80)
 									{
-										output = line;
+										output += line + "\n";
 									}
 									else
 									{
+										int index = 0;
+										int breakPoint = 0;
+										int nextStartingPoint = 0;
 										
+										for(int i = 0; i < charCount / 80 + 1; i++) 
+										// calculates the number of lines needed and formats
+										{
+											if(breakPoint == 0)
+											{
+												while(line.charAt(79 * (i + 1) - index) != ' ')
+												{ 
+													index += 1;
+												}
+											}
+											else
+											{
+												while(line.charAt(79 * (i + 1) - index) != ' ')
+												{ 
+													index += 1;
+												}
+											}
+											breakPoint = 79 * (i + 1) - index;
+											for(int j = previousBreakPoint; j < breakPoint; j++)
+											{
+												output += line.charAt(j);
+											}
+											output += "\n";
+											index = 0;
+											nextStartingPoint = breakPoint + 1;
+										}
 									}
 								}
 								//left justified, single indent
 								else if(indent.equals("indent"))
 								{
-									output = "     "; // 5 spaces used
-									if(characters <= 75)
+									output += "     "; // 5 spaces used
+									if(charCount <= 75)
 									{
 										output = output + line;
 									}
@@ -174,7 +206,7 @@ public class DisplayPane extends BorderPane
 								else if(indent.equals("block"))
 								{
 									output = "          "; // 10 spaces used
-									if(characters <= 70)
+									if(charCount <= 70)
 									{
 										output = output + line;
 									}
@@ -192,11 +224,11 @@ public class DisplayPane extends BorderPane
 								
 							} else if(justification.equals("right")) {
 								int spaceNumber = 0;
-								characters = line.length();
+								charCount = line.length();
 								//right justified, no indent
 								if(indent.equals("none"))
 								{
-									if(characters <= 80)
+									if(charCount <= 80)
 									{
 										spaceNumber = 80 - characters;
 										for(int i = 0; i < spaceNumber; i++)
